@@ -99,8 +99,12 @@ namespace AS
         public void PlayerAttackAction()
         {
             if (!_waitingForPlayerAction) return;
-            
+
             var shotHandler = _currentActiveUnit.GetComponentInChildren<ShotHandler>();
+            var targetLockOn = _currentActiveUnit.GetComponent<TargetLockOn>();
+
+            if (!targetLockOn.currentEnemy) return;
+
             shotHandler.Shot();
             _waitingForPlayerAction = false;
             StartCoroutine(nameof(WaitForTurn));
@@ -120,7 +124,7 @@ namespace AS
                 _remainingAllies.Add(playerStats);
             }
         }
-        
+
         private void InitEnemies()
         {
             foreach (EnemyStats enemyStats in _enemyTeam)

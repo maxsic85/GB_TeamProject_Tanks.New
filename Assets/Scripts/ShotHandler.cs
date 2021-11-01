@@ -9,9 +9,7 @@ namespace AS
 
         private TargetLockOn _targetLockOn;
         private CombatHandler _combatHandler;
-
-        private Vector3 _target;
-
+        
         private void Start()
         {
             _targetLockOn = GetComponentInParent<TargetLockOn>();
@@ -20,17 +18,19 @@ namespace AS
 
         public void Shot()
         {
+            var targetPos = Vector3.zero;
+            
             if (GetComponentInParent<PlayerStats>())
             {
-                if (_targetLockOn.currentEnemy) _target = _targetLockOn.currentEnemy.transform.position;
+                targetPos = _targetLockOn.currentEnemy.transform.position;
             }
 
             if (GetComponentInParent<EnemyStats>())
             {
-                _target = _combatHandler._currentAIUnitTarget.transform.position;
+                targetPos = _combatHandler._currentAIUnitTarget.transform.position;
             }
 
-            Vector3 dir = _target - transform.position;
+            Vector3 dir = targetPos - transform.position;
             dir.Normalize();
             dir.y = 0;
 
