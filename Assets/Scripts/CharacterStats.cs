@@ -1,27 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AS
 {
     public class CharacterStats : MonoBehaviour
     {
-        public int healthLevel = 10;
-        public int maxHealth;
-        public int currentHealth;
+       [SerializeField] private int _healthLevel = 10;
+       [SerializeField] private int _maxHealth;
+        private int _currentHealth;
+        private bool _isDead;
 
-        public bool isDead;
+        public int HealthLevel
+        {
+            get => _healthLevel;
+            set => _healthLevel = value;
+        }
+
+        public int MaxHealth
+        {
+            get => _maxHealth;
+            set => _maxHealth = value;
+        }
+
+        public int CurrentHealth
+        {
+            get => _currentHealth;
+            set => _currentHealth = value;
+        }
+
+        public bool IsDead
+        {
+            get => _isDead;
+            set => _isDead = value;
+        }
+
 
         public void TakingDamage(int damage)
         {
-            if (isDead)
-                return;
-            currentHealth = currentHealth - damage;
+            if (_isDead) return;
+            _currentHealth = _currentHealth - damage;
 
-            if (currentHealth <= 0)
+            if (_currentHealth <= 0)
             {
-                currentHealth = 0;
-                isDead = true;
+                _currentHealth = 0;
+                IsDead = true;
             }
         }
     }

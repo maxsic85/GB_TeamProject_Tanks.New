@@ -24,9 +24,9 @@ namespace AS
                 playerStats.TakingDamage(_damage);
                 playerStats.UpdatePlayerHealthSlider();
                 Destroy(gameObject);
-                if (playerStats.currentHealth <= 0)
+                if (playerStats.CurrentHealth <= 0)
                 {
-                    playerStats.currentHealth = 0;
+                    playerStats.CurrentHealth = 0;
                     playerStats.HandleDeath();
                 }
             }
@@ -38,9 +38,9 @@ namespace AS
                 enemyStats.UpdateEnemyHealthSlider();                
                 Destroy(gameObject);
                 {
-                    if (enemyStats.currentHealth <= 0)
+                    if (enemyStats.CurrentHealth <= 0)
                     {
-                        enemyStats.currentHealth = 0;
+                        enemyStats.CurrentHealth = 0;
                         enemyStats.HandleDeath();
                     }
                 }

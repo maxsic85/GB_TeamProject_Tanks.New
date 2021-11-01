@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AS
@@ -19,7 +17,7 @@ namespace AS
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ignoreLayers))
             {
                 EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
-                if (!enemyStats.isDead)
+                if (!enemyStats.IsDead)
                 {
                     currentEnemy = hit.transform;
                     Highlight = Instantiate(ParticleFX, currentEnemy.position, currentEnemy.rotation);

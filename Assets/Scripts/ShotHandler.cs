@@ -1,43 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AS
 {
     public class ShotHandler : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject _projectile;        
-        private float projectileSpeed = 35;
+        [SerializeField] private GameObject _projectile;
+        [SerializeField] private float _projectileSpeed = 35;
 
-        TargetLockOn targetLockOn;
-        CombatHandler combatHandler;
+        private TargetLockOn _targetLockOn;
+        private CombatHandler _combatHandler;
 
-        Vector3 target;
+        private Vector3 _target;
+
         private void Start()
         {
-            targetLockOn = GetComponentInParent<TargetLockOn>();
-            combatHandler = FindObjectOfType<CombatHandler>();
+            _targetLockOn = GetComponentInParent<TargetLockOn>();
+            _combatHandler = FindObjectOfType<CombatHandler>();
         }
+
         public void Shot()
         {
             if (GetComponentInParent<PlayerStats>())
             {
-                target = targetLockOn.currentEnemy.transform.position;
+                if (_targetLockOn.currentEnemy) _target = _targetLockOn.currentEnemy.transform.position;
             }
+
             if (GetComponentInParent<EnemyStats>())
             {
-                target = combatHandler.currentAIUnitTarget.transform.position;                 
+                _target = _combatHandler._currentAIUnitTarget.transform.position;
             }
-            Vector3 dir = target - transform.position;
+
+            Vector3 dir = _target - transform.position;
             dir.Normalize();
             dir.y = 0;
 
             Quaternion targetRotation = Quaternion.LookRotation(dir);
             transform.rotation = targetRotation;
 
-            GameObject shell = Instantiate(_projectile, transform.position, transform.rotation);            
-            shell.GetComponent<Rigidbody>().AddForce(transform.forward * projectileSpeed, ForceMode.Impulse);
+            GameObject shell = Instantiate(_projectile, transform.position, transform.rotation);
+            shell.GetComponent<Rigidbody>().AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
         }
     }
 }

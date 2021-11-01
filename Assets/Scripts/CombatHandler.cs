@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,112 +7,127 @@ namespace AS
 {
     public class CombatHandler : MonoBehaviour
     {
-        private List<CharacterStats> Combatants;
+        private List<CharacterStats> _combatants;
+        private PlayerStats[] _playerTeam;
+        private EnemyStats[] _enemyTeam;
+        private List<CharacterStats> _remainingEnemies;
+        private List<CharacterStats> _remainingAllies;
 
-        private CharacterStats[] PlayerTeam;
-        private CharacterStats[] EnemyTeam;
+        private CharacterStats _currentActiveUnit;
+        [HideInInspector] public CharacterStats _currentAIUnitTarget;
 
-        private List<CharacterStats> RemainingEnemies;
-        private List<CharacterStats> RemainingAllies;
+        private bool _waitingForPlayerAction;
 
-        private CharacterStats currentActiveUnit;
-        [HideInInspector]
-        public CharacterStats currentAIUnitTarget;
-
-        private bool WaitingForPlayerAction;
+        private void Awake()
+        {
+            _combatants = new List<CharacterStats>();
+            _remainingAllies = new List<CharacterStats>();
+            _remainingEnemies = new List<CharacterStats>();
+            _playerTeam = FindObjectsOfType<PlayerStats>();
+            _enemyTeam = FindObjectsOfType<EnemyStats>();
+        }
 
         private void Start()
         {
-            Combatants = new List<CharacterStats>();
-            RemainingAllies = new List<CharacterStats>();
-            RemainingEnemies = new List<CharacterStats>();
-
-            PlayerTeam = FindObjectsOfType<PlayerStats>();
-            foreach (PlayerStats playerStats in PlayerTeam)
-            {
-                Combatants.Add(playerStats);
-                RemainingAllies.Add(playerStats);                
-            }
-
-            EnemyTeam = FindObjectsOfType<EnemyStats>();
-            foreach (EnemyStats enemyStats in EnemyTeam)
-            {
-                Combatants.Add(enemyStats);
-                RemainingEnemies.Add(enemyStats);
-            }
+            InitPlayers();
+            InitEnemies();
             Battle();
         }
+
         public void Battle()
-        {            
-            if (RemainingAllies.Count == 0)
+        {
+            if (_remainingAllies.Count == 0)
             {
                 Debug.Log("Defeat");
             }
-            if (RemainingEnemies.Count == 0)
+
+            if (_remainingEnemies.Count == 0)
             {
                 Debug.Log("Victory");
             }
             else
             {
-                currentActiveUnit = Combatants[0];
-                Combatants.Remove(currentActiveUnit);
-                Combatants.Add(currentActiveUnit);
-                if (!currentActiveUnit.isDead)
+                _currentActiveUnit = _combatants[0];
+                _combatants.Remove(_currentActiveUnit);
+                _combatants.Add(_currentActiveUnit);
+                if (!_currentActiveUnit.IsDead)
                 {
                     CheckingTarget();
                 }
                 else
                 {
                     Debug.Log("Dead -> skip");
-                    Combatants.Remove(currentActiveUnit);
-                    if (currentActiveUnit.tag == "Enemy")
+                    _combatants.Remove(_currentActiveUnit);
+                    if (_currentActiveUnit.CompareTag("Enemy"))
                     {
-                        RemainingEnemies.Remove(currentActiveUnit);
+                        _remainingEnemies.Remove(_currentActiveUnit);
                     }
-                    else if (currentActiveUnit.tag == "Player")
+                    else if (_currentActiveUnit.CompareTag("Player"))
                     {
-                        RemainingAllies.Remove(currentActiveUnit);
+                        _remainingAllies.Remove(_currentActiveUnit);
                     }
+
                     Battle();
                 }
             }
         }
+
         public void CheckingTarget()
         {
-            if (currentActiveUnit.tag == "Enemy")
+            if (_currentActiveUnit.CompareTag("Enemy"))
             {
-                if (RemainingAllies.Count != 0)
+                if (_remainingAllies.Count != 0)
                 {
-                    int index = Random.Range(0, RemainingAllies.Count);
-                    currentAIUnitTarget = RemainingAllies[index];
+                    int index = Random.Range(0, _remainingAllies.Count);
+                    _currentAIUnitTarget = _remainingAllies[index];
                     AIAttackAction();
                 }
             }
-            else if (currentActiveUnit.tag == "Player")
+            else if (_currentActiveUnit.CompareTag("Player"))
             {
-                WaitingForPlayerAction = true;
+                _waitingForPlayerAction = true;
             }
         }
+
         public void AIAttackAction()
         {
-            ShotHandler shotHandler = currentActiveUnit.GetComponentInChildren<ShotHandler>();
+            var shotHandler = _currentActiveUnit.GetComponentInChildren<ShotHandler>();
             shotHandler.Shot();
-            StartCoroutine("WaitForTurn");
+            StartCoroutine(nameof(WaitForTurn));
         }
+
         public void PlayerAttackAction()
         {
-            if (WaitingForPlayerAction == true)
-            {
-                ShotHandler shotHandler = currentActiveUnit.GetComponentInChildren<ShotHandler>();
-                shotHandler.Shot();
-                WaitingForPlayerAction = false;
-                StartCoroutine("WaitForTurn");
-            }
+            if (!_waitingForPlayerAction) return;
+            
+            var shotHandler = _currentActiveUnit.GetComponentInChildren<ShotHandler>();
+            shotHandler.Shot();
+            _waitingForPlayerAction = false;
+            StartCoroutine(nameof(WaitForTurn));
         }
-        IEnumerator WaitForTurn()
+
+        private IEnumerator WaitForTurn()
         {
             yield return new WaitForSeconds(1);
             Battle();
         }
+
+        private void InitPlayers()
+        {
+            foreach (PlayerStats playerStats in _playerTeam)
+            {
+                _combatants.Add(playerStats);
+                _remainingAllies.Add(playerStats);
+            }
+        }
+        
+        private void InitEnemies()
+        {
+            foreach (EnemyStats enemyStats in _enemyTeam)
+            {
+                _combatants.Add(enemyStats);
+                _remainingEnemies.Add(enemyStats);
+            }
+        }
     }
-}   
+}

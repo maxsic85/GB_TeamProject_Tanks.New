@@ -6,24 +6,24 @@ namespace AS
 {
     public class PlayerStats : CharacterStats
     {
-        public PlayerHealthBar playerHealthBar;
+        public HealthBar playerHealthBar;
         public GameObject ExplosionFX;
         public GameObject SmokeFX;
         void Start()
         {
-            maxHealth = SetMaxHealthFromHealthLevelFormula();
-            currentHealth = maxHealth;
-            playerHealthBar.SetMaxHealth(maxHealth);
+            MaxHealth = SetMaxHealthFromHealthLevelFormula();
+            CurrentHealth = MaxHealth;
+            playerHealthBar.SetMaxHealth(MaxHealth);
         }
 
         private int SetMaxHealthFromHealthLevelFormula()
         {
-            maxHealth = healthLevel * 15;
-            return maxHealth;
+            MaxHealth = HealthLevel * 15;
+            return MaxHealth;
         }
         public void UpdatePlayerHealthSlider()
         {
-            playerHealthBar.SetCurrentHealth(currentHealth);
+            playerHealthBar.SetCurrentHealth(CurrentHealth);
         }
         public void HandleDeath()
         {

@@ -1,35 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace AS
 {
     public class EnemyStats : CharacterStats
     {
-        public EnemyHealthBar enemyHealthBar;
+        [FormerlySerializedAs("enemyHealthBar")] public HealthBar _healthBar;
         public GameObject ExplosionFX;
         public GameObject SmokeFX;
-        void Start()
+       private void Start()
         {
-            maxHealth = SetMaxHealthFromHealthLevelFormula();
-            currentHealth = maxHealth;
-            enemyHealthBar.SetMaxHealth(maxHealth);
+            MaxHealth = SetMaxHealthFromHealthLevelFormula();
+            CurrentHealth = MaxHealth;
+            _healthBar.SetMaxHealth(MaxHealth);
         }
 
         private int SetMaxHealthFromHealthLevelFormula()
         {
-            maxHealth = healthLevel * 3;
-            return maxHealth;
+            MaxHealth = HealthLevel * 3;
+            return MaxHealth;
         }
         public void UpdateEnemyHealthSlider()
         {
-            enemyHealthBar.SetCurrentHealth(currentHealth);
+            _healthBar.SetCurrentHealth(CurrentHealth);
         }
         public void HandleDeath()
         {
-            GameObject temp = Instantiate(ExplosionFX, transform.position, transform.rotation);
-            GameObject temp1 = Instantiate(SmokeFX, transform.position, transform.rotation);
-            TargetLockOn targetLockOn = FindObjectOfType<TargetLockOn>();
+            var rotation = transform.rotation;
+            var position = transform.position;
+            
+            Instantiate(ExplosionFX, position, rotation);
+            Instantiate(SmokeFX, position, rotation);
+            
+            var targetLockOn = FindObjectOfType<TargetLockOn>();
             targetLockOn.ClearTarget();
         }
     }
