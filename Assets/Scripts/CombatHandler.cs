@@ -161,7 +161,7 @@ namespace AS
                 _remainingEnemies.Add(enemyStats);
             }
         }
-      
+
         private void SetSkills()
         {
             var count = Enum.GetValues(typeof(SkillType)).Length;
@@ -192,9 +192,11 @@ namespace AS
         private bool CheckEndRound()
         {
             int number = (from t in _combatants where !t.IsEndRound select t).Count();
-            return _endRound = (number == 0) ? true : false;
+            _endRound = (number == 0) ? true : false;
+       
+            return _endRound;
         }
 
-
+     
     }
 }

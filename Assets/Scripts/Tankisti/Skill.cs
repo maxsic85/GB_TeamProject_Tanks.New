@@ -35,13 +35,7 @@ namespace AS
         {
             var enemies = CombatHandler.Instance.EnemyTeam;
             var player = FindObjectOfType<TargetLockOn>().GetComponent<CharacterStats>();
-          
-            foreach (var item in enemies)
-            {
-                player.GetComponentInChildren<ShotHandler>().Shot(item);
-                Debug.Log(item._healthBar);
-            }
-           
+            player.GetComponentInChildren<ShotHandler>().ShotToAllEnemies();
         }
         private void SetDamagToTarget() => Debug.Log("FIRE");
 

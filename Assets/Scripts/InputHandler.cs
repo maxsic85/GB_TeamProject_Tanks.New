@@ -28,6 +28,10 @@ namespace AS
             {               
                 combatHandler.PlayerAttackAction();
             }
+            else if (Input.GetMouseButtonDown(2))
+            {
+                combatHandler._roundData.EndRound = true;
+            }
         }
     }
 }

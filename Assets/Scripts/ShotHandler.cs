@@ -9,7 +9,7 @@ namespace AS
 
         private TargetLockOn _targetLockOn;
         private CombatHandler _combatHandler;
-        
+
         private void Start()
         {
             _targetLockOn = GetComponentInParent<TargetLockOn>();
@@ -24,7 +24,8 @@ namespace AS
                     JustShot();
                     break;
                 case ShotType.UseSkill:
-                    UseSkill(character);
+                  
+                       UseSkill(character);
                     break;
                 default:
                     JustShot();
@@ -61,6 +62,24 @@ namespace AS
         private void UseSkill(CharacterStats character)
         {
             character.Skill.ExecuteSkill(character._SkillType);
+        }
+
+
+        public void ShotToAllEnemies()
+        {
+            var enemies = CombatHandler.Instance.EnemyTeam;
+            foreach (var item in enemies)
+            {
+                var targetPos = Vector3.zero;
+                targetPos = item.transform.position;
+                Vector3 dir = targetPos - transform.position;
+                dir.Normalize();
+                dir.y = 0;
+                Quaternion targetRotation = Quaternion.LookRotation(dir);
+                transform.rotation = targetRotation;
+                GameObject shell = Instantiate(_projectile, transform.position, transform.rotation);
+                shell.GetComponent<Rigidbody>().AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
+            }
         }
     }
 }
