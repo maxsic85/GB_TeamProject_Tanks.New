@@ -21,33 +21,41 @@ namespace AS
             switch (character.ShotType)
             {
                 case ShotType.JustShot:
-                    JustShot();
+                    JustShot(false);
                     break;
                 case ShotType.UseSkill:
-                  
-                       UseSkill(character);
+                    UseSkill(character);
                     break;
                 default:
-                    JustShot();
+
                     break;
             }
 
         }
-
-        private void JustShot()
+        private void UseSkill(CharacterStats character)
+        {
+            character.Skill.ExecuteSkill(character._SkillType);
+        }
+        public void JustShot(bool random)
         {
             var targetPos = Vector3.zero;
-
-            if (GetComponentInParent<PlayerStats>())
+            if (random == true)
             {
-                targetPos = _targetLockOn.currentEnemy.transform.position;
+                targetPos = _combatHandler.EnemyTeam[Random.Range(0, _combatHandler.EnemyTeam.Length)].transform.position;
             }
 
-            if (GetComponentInParent<EnemyStats>())
+            else
             {
-                targetPos = _combatHandler._currentAIUnitTarget.transform.position;
-            }
+                if (GetComponentInParent<PlayerStats>())
+                {
+                    targetPos = _targetLockOn.currentEnemy.transform.position;
+                }
 
+                if (GetComponentInParent<EnemyStats>())
+                {
+                    targetPos = _combatHandler._currentAIUnitTarget.transform.position;
+                }
+            }
             Vector3 dir = targetPos - transform.position;
             dir.Normalize();
             dir.y = 0;
@@ -57,14 +65,8 @@ namespace AS
 
             GameObject shell = Instantiate(_projectile, transform.position, transform.rotation);
             shell.GetComponent<Rigidbody>().AddForce(transform.forward * _projectileSpeed, ForceMode.Impulse);
+
         }
-
-        private void UseSkill(CharacterStats character)
-        {
-            character.Skill.ExecuteSkill(character._SkillType);
-        }
-
-
         public void ShotToAllEnemies()
         {
             var enemies = CombatHandler.Instance.EnemyTeam;

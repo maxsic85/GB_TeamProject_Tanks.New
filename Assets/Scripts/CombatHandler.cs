@@ -185,6 +185,7 @@ namespace AS
                 _roundCount = _roundCount + 1;
                 _roundData.EndRound = false;
                 _roundData.RoundCount = _roundCount;
+                SetSkills();
                 Battle();
 
             }
@@ -193,10 +194,10 @@ namespace AS
         {
             int number = (from t in _combatants where !t.IsEndRound select t).Count();
             _endRound = (number == 0) ? true : false;
-       
+          
             return _endRound;
         }
 
-     
+
     }
 }

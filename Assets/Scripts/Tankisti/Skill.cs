@@ -13,8 +13,13 @@ namespace AS
     public class Skill : MonoBehaviour, ISkill
     {
         SkillType ISkill.skillTtype { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
+        CharacterStats _player;
         private Dictionary<SkillType, Action> _actions;
+
+        private void Start()
+        {
+            _player = FindObjectOfType<TargetLockOn>().GetComponent<CharacterStats>();
+        }
 
         public event Action ExecuteBonus;
 
@@ -30,14 +35,13 @@ namespace AS
             _actions[value]?.Invoke();
         }
 
-        private void SetDamagRandom() => Debug.Log("EARTH");
+        private void SetDamagRandom() => _player.GetComponentInChildren<ShotHandler>().JustShot(true);
         private void SetDamagToAll()
         {
             var enemies = CombatHandler.Instance.EnemyTeam;
-            var player = FindObjectOfType<TargetLockOn>().GetComponent<CharacterStats>();
-            player.GetComponentInChildren<ShotHandler>().ShotToAllEnemies();
+            _player.GetComponentInChildren<ShotHandler>().ShotToAllEnemies();
         }
-        private void SetDamagToTarget() => Debug.Log("FIRE");
+        private void SetDamagToTarget() => _player.GetComponentInChildren<ShotHandler>().JustShot(false);
 
 
     }
