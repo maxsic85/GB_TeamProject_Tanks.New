@@ -29,7 +29,7 @@ namespace AS
             currentEnemy = null;
             Destroy(Highlight);
             
-            Debug.Log($"currentEnemy = {currentEnemy}",this);
+            //Debug.Log($"currentEnemy = {currentEnemy}",this);
         }
     }
 }

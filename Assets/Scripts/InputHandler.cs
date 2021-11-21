@@ -16,13 +16,22 @@ namespace AS
         }
         void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (CombatHandler.Instance._roundData.EndRound)
             {
+                targetLockOn.ClearTarget();
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("touch");
                 targetLockOn.ChooseTarget();
             }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {               
+            else if (Input.GetKeyDown(KeyCode.Space))
+            {
                 combatHandler.PlayerAttackAction();
+            }
+            else if (Input.GetMouseButtonDown(2))
+            {
+                combatHandler._roundData.EndRound = true;
             }
         }
     }
