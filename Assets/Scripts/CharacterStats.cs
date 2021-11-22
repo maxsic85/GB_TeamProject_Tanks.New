@@ -10,7 +10,7 @@ namespace AS
         [SerializeField] private bool _isUseSkiil = false;
 
         [SerializeField] ISkill skill;
-        [SerializeField] internal SkillType _skillType;
+       public SkillType _skillType;
         [SerializeField] ShotType _shotType;
 
         [SerializeField] private bool _isEndRound = false;

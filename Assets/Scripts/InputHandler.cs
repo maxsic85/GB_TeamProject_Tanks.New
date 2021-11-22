@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AS
 {
-    public class InputHandler : MonoBehaviour
+    public class InputHandler : MonoBehaviour,IPlayer
     {
         TargetLockOn targetLockOn;
         CombatHandler combatHandler;

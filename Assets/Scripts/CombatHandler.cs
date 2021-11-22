@@ -44,7 +44,8 @@ namespace AS
                 _instance = this;
 
             }
-
+            _roundData.EndRound = false;
+            _roundData.RoundCount = 0;
             _skill = gameObject.GetOrAddComponent<Skill>();
             _combatants = new List<CharacterStats>();
             _remainingAllies = new List<CharacterStats>();
@@ -59,7 +60,7 @@ namespace AS
 
         private void Start()
         {
-          
+            
             InvokeRepeating(nameof(CheckNewRound), 1, 0.2f);
             Battle();
         }
@@ -191,7 +192,7 @@ namespace AS
                 _roundCount = _roundCount + 1;
                 _roundData.EndRound = false;
                 _roundData.RoundCount = _roundCount;
-                SetSkills();
+               // SetSkills();
                 Battle();
 
             }
