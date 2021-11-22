@@ -44,20 +44,23 @@ namespace AS
                 _instance = this;
 
             }
-
+            _roundData.EndRound = false;
+            _roundData.RoundCount = 0;
             _skill = gameObject.GetOrAddComponent<Skill>();
             _combatants = new List<CharacterStats>();
             _remainingAllies = new List<CharacterStats>();
             _remainingEnemies = new List<CharacterStats>();
             _playerTeam = FindObjectsOfType<PlayerStats>();
             _enemyTeam = FindObjectsOfType<EnemyStats>();
+
+            InitPlayers();
+            InitEnemies();
+            SetSkills();
         }
 
         private void Start()
         {
-            InitPlayers();
-            InitEnemies();
-            SetSkills();
+            
             InvokeRepeating(nameof(CheckNewRound), 1, 0.2f);
             Battle();
         }
@@ -97,7 +100,7 @@ namespace AS
                         _remainingAllies.Remove(_currentActiveUnit);
                     }
 
-                    //Battle();
+                    Battle();
                 }
             }
         }
@@ -189,7 +192,7 @@ namespace AS
                 _roundCount = _roundCount + 1;
                 _roundData.EndRound = false;
                 _roundData.RoundCount = _roundCount;
-                SetSkills();
+               // SetSkills();
                 Battle();
 
             }

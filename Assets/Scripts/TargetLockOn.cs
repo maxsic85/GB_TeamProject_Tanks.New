@@ -4,10 +4,10 @@ namespace AS
 {
     public class TargetLockOn : MonoBehaviour
     {
-        public Transform currentEnemy;
+        public GameObject currentEnemy;
         public GameObject ParticleFX;
         private GameObject Highlight;
-        int ignoreLayers = 1 << 3;
+        int ignoreLayers =1 << 3;
 
         public void ChooseTarget()
         {
@@ -19,8 +19,8 @@ namespace AS
                 EnemyStats enemyStats = hit.transform.GetComponent<EnemyStats>();
                 if (!enemyStats.IsDead)
                 {
-                    currentEnemy = hit.transform;
-                    Highlight = Instantiate(ParticleFX, currentEnemy.position, currentEnemy.rotation);
+                    currentEnemy = hit.transform.gameObject;
+                    Highlight = Instantiate(ParticleFX, currentEnemy.transform.position, currentEnemy.transform.rotation);
                 }
             }
         }

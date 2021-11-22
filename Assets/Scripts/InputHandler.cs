@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AS
 {
-    public class InputHandler : MonoBehaviour
+    public class InputHandler : MonoBehaviour,IPlayer
     {
         TargetLockOn targetLockOn;
         CombatHandler combatHandler;
@@ -22,8 +22,8 @@ namespace AS
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("touch");
                 targetLockOn.ChooseTarget();
+                Debug.Log("touch"+targetLockOn.name);
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {

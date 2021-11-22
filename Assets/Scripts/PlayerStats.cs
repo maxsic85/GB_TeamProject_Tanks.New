@@ -11,11 +11,16 @@ namespace AS
         public GameObject SmokeFX;
         void Start()
         {
+            ServiceLocatorMonoBehavior.GetService<PlayerStats>();
             MaxHealth = SetMaxHealthFromHealthLevelFormula();
             CurrentHealth = MaxHealth;
             playerHealthBar.SetMaxHealth(MaxHealth);
+            UpdateSkill();
+        }     
+        public void UpdateSkill()
+        {
+            playerHealthBar.SetCurrentSkill(_skillType);
         }
-
         private int SetMaxHealthFromHealthLevelFormula()
         {
             MaxHealth = HealthLevel * 15;

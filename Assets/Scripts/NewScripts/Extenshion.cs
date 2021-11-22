@@ -18,8 +18,28 @@ namespace AS
             }
         }
 
-
-
+        public static SkillType GetSkillFromEnum(int index)
+        {
+          SkillType  _skillType = index switch
+            {
+                0 => SkillType.FIRE,
+                1 => SkillType.WATER,
+                2 => SkillType.EARTH,
+                _ => 0
+            };
+            return _skillType;
+        }
+        public static Sprite GetSpriteBySkillType(SkillType index)
+        {
+            Sprite sprite = index switch
+            {
+                SkillType.FIRE => CombatHandler.Instance._roundData.Skills.SkillDatas[0].Image,
+                SkillType.WATER => CombatHandler.Instance._roundData.Skills.SkillDatas[1].Image,
+                SkillType.EARTH => CombatHandler.Instance._roundData.Skills.SkillDatas[2].Image,
+                _ => CombatHandler.Instance._roundData.Skills.SkillDatas[0].Image
+            };
+            return sprite;
+        }
 
     }
 }
