@@ -34,6 +34,7 @@ namespace AS
 
             };
             _actions[value]?.Invoke();
+            
         }
 
         private void SetDamagRandom() => _player.GetComponentInChildren<ShotHandler>().JustShot(true);

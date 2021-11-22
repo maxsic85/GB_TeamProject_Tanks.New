@@ -15,7 +15,6 @@ namespace AS
             _targetLockOn = GetComponentInParent<TargetLockOn>();
             _combatHandler = FindObjectOfType<CombatHandler>();
         }
-
         public void Shot(CharacterStats character)
         {
             switch (character.ShotType)

@@ -100,7 +100,7 @@ namespace AS
                         _remainingAllies.Remove(_currentActiveUnit);
                     }
 
-                    //Battle();
+                    Battle();
                 }
             }
         }
