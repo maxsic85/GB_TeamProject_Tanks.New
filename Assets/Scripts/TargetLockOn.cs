@@ -7,7 +7,7 @@ namespace AS
         public Transform currentEnemy;
         public GameObject ParticleFX;
         private GameObject Highlight;
-        int ignoreLayers = 1 << 3;
+        int ignoreLayers =1 << 3;
 
         public void ChooseTarget()
         {

@@ -51,13 +51,15 @@ namespace AS
             _remainingEnemies = new List<CharacterStats>();
             _playerTeam = FindObjectsOfType<PlayerStats>();
             _enemyTeam = FindObjectsOfType<EnemyStats>();
+
+            InitPlayers();
+            InitEnemies();
+            SetSkills();
         }
 
         private void Start()
         {
-            InitPlayers();
-            InitEnemies();
-            SetSkills();
+          
             InvokeRepeating(nameof(CheckNewRound), 1, 0.2f);
             Battle();
         }

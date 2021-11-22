@@ -22,8 +22,8 @@ namespace AS
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("touch");
                 targetLockOn.ChooseTarget();
+                Debug.Log("touch"+targetLockOn.name);
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {

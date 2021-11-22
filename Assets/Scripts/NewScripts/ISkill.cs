@@ -15,7 +15,7 @@ namespace AS
         SkillType ISkill.skillTtype { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         CharacterStats _player;
         private Dictionary<SkillType, Action> _actions;
-
+   
         private void Start()
         {
             _player = FindObjectOfType<TargetLockOn>().GetComponent<CharacterStats>();
