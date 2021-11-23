@@ -44,8 +44,8 @@ namespace AS
                 _instance = this;
 
             }
-            ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound = false;
-            ServiceLocatorMonoBehavior.GetService<GameService>().roundData.RoundCount = 0;
+            ServiceLocator.Resolve<GameStarter>().roundData.EndRound = false;
+            ServiceLocator.Resolve<GameStarter>().roundData.RoundCount = 0;
             _skill = gameObject.GetOrAddComponent<Skill>();
             _combatants = new List<CharacterStats>();
             _remainingAllies = new List<CharacterStats>();
@@ -149,7 +149,7 @@ namespace AS
         private IEnumerator WaitForEndRound()
         {
             yield return new WaitForSeconds(1);
-            ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound = true;
+            ServiceLocator.Resolve<GameStarter>().roundData.EndRound = true;
         }
         private void InitPlayers()
         {
@@ -182,7 +182,7 @@ namespace AS
             if (CheckEndRound())// && ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound)
             {
 
-                if (ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound)
+                if   (ServiceLocator.Resolve<GameStarter>().roundData.EndRound)
                 {
 
                     foreach (var item in _combatants)
@@ -191,8 +191,8 @@ namespace AS
                     }
                     _endRound = false;
                     _roundCount = _roundCount + 1;
-                    ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound = false;
-                    ServiceLocatorMonoBehavior.GetService<GameService>().roundData.RoundCount = _roundCount;
+                    ServiceLocator.Resolve<GameStarter>().roundData.EndRound = false;
+                    ServiceLocator.Resolve<GameStarter>().roundData.RoundCount = _roundCount;
                     StopCoroutine(nameof(WaitForEndRound));
                     // SetSkills();
                     Battle();
