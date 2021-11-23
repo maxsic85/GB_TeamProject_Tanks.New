@@ -33,10 +33,10 @@ namespace AS
         {
             Sprite sprite = index switch
             {
-                SkillType.FIRE => CombatHandler.Instance._roundData.Skills.SkillDatas[0].Image,
-                SkillType.WATER => CombatHandler.Instance._roundData.Skills.SkillDatas[1].Image,
-                SkillType.EARTH => CombatHandler.Instance._roundData.Skills.SkillDatas[2].Image,
-                _ => CombatHandler.Instance._roundData.Skills.SkillDatas[0].Image
+                SkillType.FIRE => ServiceLocatorMonoBehavior.GetService<GameService>().roundData.Skills.SkillDatas[0].Image,
+                SkillType.WATER => ServiceLocatorMonoBehavior.GetService<GameService>().roundData.Skills.SkillDatas[1].Image,
+                SkillType.EARTH => ServiceLocatorMonoBehavior.GetService<GameService>().roundData.Skills.SkillDatas[2].Image,
+                _ => ServiceLocatorMonoBehavior.GetService<GameService>().roundData.Skills.SkillDatas[0].Image
             };
             return sprite;
         }

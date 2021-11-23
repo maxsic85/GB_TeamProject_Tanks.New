@@ -16,7 +16,7 @@ namespace AS
         }
         void Update()
         {
-            if (CombatHandler.Instance._roundData.EndRound)
+            if (ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound)
             {
                 targetLockOn.ClearTarget();
             }
@@ -31,7 +31,7 @@ namespace AS
             }
             else if (Input.GetMouseButtonDown(2))
             {
-                combatHandler._roundData.EndRound = true;
+                ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound = true;
             }
         }
     }
