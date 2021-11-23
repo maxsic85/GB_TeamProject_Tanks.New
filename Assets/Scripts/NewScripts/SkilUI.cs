@@ -13,7 +13,7 @@ namespace AS
 
         void Start()
         {
-            FindObjectOfType<InputHandler>()?.TryGetComponent<PlayerStats>(out _player);
+            FindObjectOfType<PlayerStats>()?.TryGetComponent<PlayerStats>(out _player);
             image = GetComponent<Image>();
             image.sprite = skillData.Image;
             gameObject.GetOrAddComponent<Button>().onClick.AddListener(SetSkillForPlayerByUI);

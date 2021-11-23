@@ -6,10 +6,12 @@ namespace AS
 {
     public class GameInitialisation 
     {
-        public GameInitialisation(RoundData roundData, Canvas healthBarCanvas)
+        public GameInitialisation(Controllers controllers,RoundData roundData, Canvas healthBarCanvas,TargetLockOn targetLockOn,CombatHandler combatHandler)
         {
             IcreteEnemyForRound Fabric = new GameFabricEnemy(roundData,healthBarCanvas);
+            var InputHandler = new InputHandler(targetLockOn,combatHandler);
 
+            controllers.Add(InputHandler);
 
         }
     }

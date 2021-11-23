@@ -19,7 +19,7 @@ namespace AS
    
         private void Start()
         {
-            _player = FindObjectOfType<TargetLockOn>().GetComponent<CharacterStats>();
+            _player = FindObjectOfType<PlayerStats>().GetComponent<CharacterStats>();
         }
 
         public event Action ExecuteBonus;

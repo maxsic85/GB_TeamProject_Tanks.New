@@ -6,9 +6,10 @@ namespace AS
 {
     public class GameStarter : MonoBehaviour
     {
-
-       public RoundData roundData;
-       public Canvas healthBarCanvas;
+        public TargetLockOn targetLockOn;
+        [SerializeField] private CombatHandler combatHandler;
+        public RoundData roundData;
+        public Canvas healthBarCanvas;
         Controllers _controllers;
 
 
@@ -16,12 +17,13 @@ namespace AS
         void Awake()
         {
             ServiceLocator.SetService<GameStarter>(this);
-            new GameInitialisation(roundData,healthBarCanvas);
+            _controllers = new Controllers();
+            new GameInitialisation(_controllers, roundData, healthBarCanvas, targetLockOn, combatHandler);
         }
 
-        private void Update()
+        void Update()
         {
-            
+            _controllers.Execute(Time.deltaTime);
 
         }
 
