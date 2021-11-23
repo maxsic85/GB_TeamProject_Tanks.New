@@ -18,7 +18,41 @@ namespace AS
         private int _currentHealth;
         private bool _isDead;
 
+        public static PlayerStats CreatePlayer(Transform playerTransform, Transform healthBarTransform)
+        {
+            var enemy = Instantiate(Resources.Load<PlayerStats>("Prefabs/PlayerTank"));
+            enemy.transform.position = playerTransform.transform.position;
+            enemy.transform.rotation = playerTransform.transform.rotation;
 
+            var healthbar = Instantiate(Resources.Load<HealthBar>("Prefabs/HealthBar"));
+            healthbar.transform.SetParent(healthBarTransform);
+            healthbar.transform.position = enemy.transform.GetChild(2).position;
+            healthbar.transform.localScale = Vector3.one;
+            healthbar.transform.localRotation = Quaternion.AngleAxis(0, Vector3.zero);
+
+
+            enemy.playerHealthBar = healthbar;
+            enemy.GetComponent<TankController>()._health = healthbar;
+            return enemy;
+        }
+
+        public static EnemyStats CreateTank(Transform enemyTransform, Transform healthBarTransform)
+        {
+            var enemy = Instantiate(Resources.Load<EnemyStats>("Prefabs/EnemyTanks"));
+            enemy.transform.position = enemyTransform.transform.position;
+            enemy.transform.rotation = enemyTransform.transform.rotation;
+
+            var healthbar = Instantiate(Resources.Load<HealthBar>("Prefabs/HealthBar"));
+            healthbar.transform.SetParent(healthBarTransform);
+            healthbar.transform.position = enemy.transform.GetChild(2).position;
+            healthbar.transform.localScale = Vector3.one;
+            healthbar.transform.localRotation = Quaternion.AngleAxis(0, Vector3.zero);
+
+
+            enemy._healthBar = healthbar;
+            enemy.GetComponent<TankController>()._health = healthbar;
+            return enemy;
+        }
 
         public int HealthLevel
         {
