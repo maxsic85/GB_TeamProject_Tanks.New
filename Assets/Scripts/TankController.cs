@@ -7,7 +7,7 @@ namespace AS
     public class TankController : MonoBehaviour
     {
         [SerializeField] private TankView _tankView;
-        [FormerlySerializedAs("_enemyHealth")] [SerializeField] private HealthBar _health;     
+      public  HealthBar _health;     
 
         private void Start()
         {

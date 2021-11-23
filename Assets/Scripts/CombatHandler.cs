@@ -9,7 +9,7 @@ namespace AS
 {
     public class CombatHandler : MonoBehaviour
     {
-        public RoundData _roundData;
+
         [SerializeField] private int _roundCount = 0;
         [SerializeField] private bool _endRound = false;
         ISkill _skill;
@@ -44,8 +44,8 @@ namespace AS
                 _instance = this;
 
             }
-            _roundData.EndRound = false;
-            _roundData.RoundCount = 0;
+            ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound = false;
+            ServiceLocatorMonoBehavior.GetService<GameService>().roundData.RoundCount = 0;
             _skill = gameObject.GetOrAddComponent<Skill>();
             _combatants = new List<CharacterStats>();
             _remainingAllies = new List<CharacterStats>();
@@ -60,7 +60,7 @@ namespace AS
 
         private void Start()
         {
-            
+
             InvokeRepeating(nameof(CheckNewRound), 1, 0.2f);
             Battle();
         }
@@ -104,7 +104,6 @@ namespace AS
                 }
             }
         }
-
         public void CheckingTarget()
         {
             if (_currentActiveUnit.CompareTag("Enemy"))
@@ -121,7 +120,6 @@ namespace AS
                 _waitingForPlayerAction = true;
             }
         }
-
         public void AIAttackAction()
         {
             var shotHandler = _currentActiveUnit.GetComponentInChildren<ShotHandler>();
@@ -129,7 +127,6 @@ namespace AS
             _currentActiveUnit.IsEndRound = true;
             StartCoroutine(nameof(WaitForTurn));
         }
-
         public void PlayerAttackAction()
         {
             if (!_waitingForPlayerAction) return;
@@ -144,13 +141,16 @@ namespace AS
             _currentActiveUnit.IsEndRound = true;
             StartCoroutine(nameof(WaitForTurn));
         }
-
         private IEnumerator WaitForTurn()
         {
             yield return new WaitForSeconds(1);
             Battle();
         }
-
+        private IEnumerator WaitForEndRound()
+        {
+            yield return new WaitForSeconds(1);
+            ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound = true;
+        }
         private void InitPlayers()
         {
             foreach (PlayerStats playerStats in _playerTeam)
@@ -159,7 +159,6 @@ namespace AS
                 _remainingAllies.Add(playerStats);
             }
         }
-
         private void InitEnemies()
         {
             foreach (EnemyStats enemyStats in _enemyTeam)
@@ -168,7 +167,6 @@ namespace AS
                 _remainingEnemies.Add(enemyStats);
             }
         }
-
         private void SetSkills()
         {
             var count = Enum.GetValues(typeof(SkillType)).Length;
@@ -179,21 +177,32 @@ namespace AS
                 tanks.Skill = _skill;
             }
         }
-
         private void CheckNewRound()
         {
-            if (CheckEndRound() && _roundData.EndRound)
+            if (CheckEndRound())// && ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound)
             {
-                foreach (var item in _combatants)
+
+                if (ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound)
                 {
-                    item.IsEndRound = false;
+
+                    foreach (var item in _combatants)
+                    {
+                        item.IsEndRound = false;
+                    }
+                    _endRound = false;
+                    _roundCount = _roundCount + 1;
+                    ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound = false;
+                    ServiceLocatorMonoBehavior.GetService<GameService>().roundData.RoundCount = _roundCount;
+                    StopCoroutine(nameof(WaitForEndRound));
+                    // SetSkills();
+                    Battle();
+
                 }
-                _endRound = false;
-                _roundCount = _roundCount + 1;
-                _roundData.EndRound = false;
-                _roundData.RoundCount = _roundCount;
-               // SetSkills();
-                Battle();
+                else if(_endRound)
+                {
+                    StartCoroutine(nameof(WaitForEndRound));
+                }
+
 
             }
         }
