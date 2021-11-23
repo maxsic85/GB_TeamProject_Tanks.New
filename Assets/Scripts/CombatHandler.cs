@@ -132,7 +132,8 @@ namespace AS
             if (!_waitingForPlayerAction) return;
 
             var shotHandler = _currentActiveUnit.GetComponentInChildren<ShotHandler>();
-            var targetLockOn = _currentActiveUnit.GetComponent<TargetLockOn>();
+            //     var targetLockOn = _currentActiveUnit.GetComponent<TargetLockOn>();
+            var targetLockOn = ServiceLocator.Resolve<GameStarter>().targetLockOn;
 
             if (!targetLockOn.currentEnemy) return;
 

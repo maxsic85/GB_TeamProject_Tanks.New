@@ -12,7 +12,7 @@ namespace AS
         
         private void Start()
         {
-            _targetLockOn = GetComponentInParent<TargetLockOn>();
+            _targetLockOn = ServiceLocator.Resolve<GameStarter>().targetLockOn;
             _combatHandler = FindObjectOfType<CombatHandler>();
         }
         public void Shot(CharacterStats character)

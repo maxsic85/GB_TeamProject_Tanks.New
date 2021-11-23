@@ -4,35 +4,39 @@ using UnityEngine;
 
 namespace AS
 {
-    public class InputHandler : MonoBehaviour,IPlayer
+    public class InputHandler : IExecute
     {
-        TargetLockOn targetLockOn;
-        CombatHandler combatHandler;
+        TargetLockOn _targetLockOn;
+        CombatHandler _combatHandler;
 
-        private void Awake()
+        public InputHandler(TargetLockOn targetLockOn,CombatHandler combatHandler)
         {
-            targetLockOn = GetComponent<TargetLockOn>();
-            combatHandler = FindObjectOfType<CombatHandler>();
+            _targetLockOn = targetLockOn;
+            _combatHandler = combatHandler;
         }
-        void Update()
+
+        public void Execute(float time)
         {
+            if (_targetLockOn == null) return;
             if (ServiceLocator.Resolve<GameStarter>().roundData.EndRound)
             {
-                targetLockOn.ClearTarget();
+                _targetLockOn.ClearTarget();
             }
             else if (Input.GetMouseButtonDown(0))
             {
-                targetLockOn.ChooseTarget();
-                Debug.Log("touch"+targetLockOn.name);
+                _targetLockOn.ChooseTarget();
+                Debug.Log("touch" + _targetLockOn.name);
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
-                combatHandler.PlayerAttackAction();
+                _combatHandler.PlayerAttackAction();
+                Debug.Log("Do Action");
             }
             else if (Input.GetMouseButtonDown(2))
             {
                 ServiceLocator.Resolve<GameStarter>().roundData.EndRound = true;
             }
         }
+
     }
 }
