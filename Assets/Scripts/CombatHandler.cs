@@ -21,6 +21,8 @@ namespace AS
         private List<CharacterStats> _remainingAllies;
         //private List<AbilityComponent> abilityComponents;
 
+        private VictoryWindow _victoryWindow;
+
         private CharacterStats _currentActiveUnit;
         [HideInInspector] public CharacterStats _currentAIUnitTarget;
 
@@ -52,6 +54,8 @@ namespace AS
             _remainingEnemies = new List<CharacterStats>();
             _playerTeam = FindObjectsOfType<PlayerStats>();
             _enemyTeam = FindObjectsOfType<EnemyStats>();
+            _victoryWindow = FindObjectOfType<VictoryWindow>();
+            _victoryWindow.gameObject.SetActive(false);
 
             InitPlayers();
             InitEnemies();
@@ -60,7 +64,7 @@ namespace AS
 
         private void Start()
         {
-
+           
             InvokeRepeating(nameof(CheckNewRound), 1, 0.2f);
             Battle();
         }
@@ -76,7 +80,11 @@ namespace AS
 
             if (_remainingEnemies.Count == 0)
             {
+               
                 Debug.Log("Victory");
+                _victoryWindow.gameObject.SetActive(true);
+               
+
             }
             else
             {
