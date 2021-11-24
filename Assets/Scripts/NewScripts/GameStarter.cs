@@ -23,6 +23,7 @@ namespace AS
 
         void Update()
         {
+           
             _controllers.Execute(Time.deltaTime);
 
         }

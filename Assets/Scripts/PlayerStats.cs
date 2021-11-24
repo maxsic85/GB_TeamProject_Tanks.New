@@ -4,18 +4,23 @@ using UnityEngine;
 
 namespace AS
 {
-    public class PlayerStats : CharacterStats
+    public class PlayerStats : CharacterStats, IInitialisation
     {
         public HealthBar playerHealthBar;
         public GameObject ExplosionFX;
         public GameObject SmokeFX;
+
+        private GameObject _explosion;
+        private GameObject _smoke;
+
         void Start()
         {
-            ServiceLocatorMonoBehavior.GetService<PlayerStats>();
-            MaxHealth = SetMaxHealthFromHealthLevelFormula();
-            CurrentHealth = MaxHealth;
-            playerHealthBar.SetMaxHealth(MaxHealth);
-            UpdateSkill();
+           
+            _smoke = Instantiate(SmokeFX, transform.position, transform.rotation);
+           
+            _smoke.SetActive(false);
+            Initialisation();
+
         }
         public void UpdateSkill()
         {
@@ -32,8 +37,21 @@ namespace AS
         }
         public void HandleDeath()
         {
-            GameObject temp = Instantiate(ExplosionFX, transform.position, transform.rotation);
-            GameObject temp1 = Instantiate(SmokeFX, transform.position, transform.rotation);
+            _explosion = Instantiate(ExplosionFX, transform.position, transform.rotation);
+            _smoke.SetActive(true);
+        }
+
+        public void Initialisation()
+        {
+            IsDead = false;
+            _smoke.SetActive(false);
+
+            ServiceLocatorMonoBehavior.GetService<PlayerStats>();
+            MaxHealth = SetMaxHealthFromHealthLevelFormula();
+            CurrentHealth = MaxHealth;
+            playerHealthBar.SetMaxHealth(MaxHealth);
+            UpdateSkill();
+
         }
     }
 }
