@@ -204,6 +204,7 @@ namespace AS
                     ServiceLocator.Resolve<GameStarter>().roundData.EndRound = false;
                     ServiceLocator.Resolve<GameStarter>().roundData.RoundCount = _roundCount;
                     StopCoroutine(nameof(WaitForEndRound));
+                    ServiceLocator.Resolve<SkillState>().UpdateStateSkills();
                     // SetSkills();
                     Battle();
 

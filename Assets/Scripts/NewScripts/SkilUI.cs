@@ -20,9 +20,7 @@ namespace AS
         }
         private void SetSkillForPlayerByUI()
         {
-          //  _player._skillType = skillData.SkillType;
-            ServiceLocatorMonoBehavior.GetService<PlayerStats>().UpdateSkill(skillData);
-      
+            ServiceLocatorMonoBehavior.GetService<PlayerStats>().UpdateSkill(skillData);   
         }
     }
 }

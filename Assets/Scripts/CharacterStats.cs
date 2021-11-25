@@ -10,7 +10,6 @@ namespace AS
         [SerializeField] private bool _isUseSkiil = false;
 
         [SerializeField] ISkill skill;
-       public SkillType _skillType;
         public SkillData _currentSkillData;
         private SkillData skillData;
         [SerializeField] ShotType _shotType;
@@ -92,7 +91,6 @@ namespace AS
             set => _isUseSkiil = value;
         }
         public ISkill Skill { get => skill; set => skill = value; }
-        public SkillType _SkillType { get => _skillType; set => _skillType = value; }
         public ShotType ShotType { get => _shotType; set => _shotType = value; }
 
         internal SkillData GetRandomSkillData(int index)

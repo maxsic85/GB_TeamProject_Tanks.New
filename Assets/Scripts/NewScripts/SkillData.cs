@@ -10,6 +10,7 @@ public class SkillData : ScriptableObject
     [SerializeField] Sprite _image ;
     [SerializeField] int  _cooldown;
     [SerializeField] int _useInRound;
+    [SerializeField] int _delayRoundToActive;
     [SerializeField] bool _isEnable=true;
     [SerializeField] SkillType _skillType;
 
@@ -19,4 +20,5 @@ public class SkillData : ScriptableObject
     public SkillType SkillType { get => _skillType; }
     public bool IsEnable { get => _isEnable; set => _isEnable = value; }
     public int UseInRound { get => _useInRound; set => _useInRound = value; }
+    public int DelayRoundToActive { get => _delayRoundToActive; set => _delayRoundToActive = value; }
 }

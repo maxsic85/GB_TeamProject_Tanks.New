@@ -10,6 +10,7 @@ namespace AS
         {
             IcreteEnemyForRound Fabric = new GameFabricEnemy(roundData,healthBarCanvas);
             var InputHandler = new InputHandler(targetLockOn,combatHandler);
+            SkillState skillState = new SkillState();
 
             controllers.Add(InputHandler);
 
