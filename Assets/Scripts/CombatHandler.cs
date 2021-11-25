@@ -13,7 +13,7 @@ namespace AS
         [SerializeField] private int _roundCount = 0;
         [SerializeField] private bool _endRound = false;
         ISkill _skill;
-
+     
         private List<CharacterStats> _combatants;
         private PlayerStats[] _playerTeam;
         private EnemyStats[] _enemyTeam;
@@ -64,7 +64,7 @@ namespace AS
 
         private void Start()
         {
-           
+
             InvokeRepeating(nameof(CheckNewRound), 1, 0.2f);
             Battle();
         }
@@ -80,10 +80,10 @@ namespace AS
 
             if (_remainingEnemies.Count == 0)
             {
-               
+
                 Debug.Log("Victory");
                 _victoryWindow.gameObject.SetActive(true);
-               
+
 
             }
             else
@@ -131,7 +131,7 @@ namespace AS
         public void AIAttackAction()
         {
             var shotHandler = _currentActiveUnit.GetComponentInChildren<ShotHandler>();
-            shotHandler.Shot(_currentActiveUnit);
+            shotHandler.Shot(_currentActiveUnit, null);
             _currentActiveUnit.IsEndRound = true;
             StartCoroutine(nameof(WaitForTurn));
         }
@@ -145,7 +145,7 @@ namespace AS
 
             if (!targetLockOn.currentEnemy) return;
 
-            shotHandler.Shot(_currentActiveUnit);
+            shotHandler.Shot(_currentActiveUnit, _currentActiveUnit._currentSkillData);
             _waitingForPlayerAction = false;
             _currentActiveUnit.IsEndRound = true;
             StartCoroutine(nameof(WaitForTurn));
@@ -182,7 +182,8 @@ namespace AS
             foreach (var tanks in _combatants)
             {
                 int rnd = Random.Range(0, count);
-                tanks._SkillType = tanks.GetRandomSkill(rnd);
+              //  tanks._SkillType = tanks.GetRandomSkill(rnd);
+                tanks._currentSkillData= tanks.GetRandomSkillData(rnd);
                 tanks.Skill = _skill;
             }
         }
@@ -191,7 +192,7 @@ namespace AS
             if (CheckEndRound())// && ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound)
             {
 
-                if   (ServiceLocator.Resolve<GameStarter>().roundData.EndRound)
+                if (ServiceLocator.Resolve<GameStarter>().roundData.EndRound)
                 {
 
                     foreach (var item in _combatants)
@@ -207,7 +208,7 @@ namespace AS
                     Battle();
 
                 }
-                else if(_endRound)
+                else if (_endRound)
                 {
                     StartCoroutine(nameof(WaitForEndRound));
                 }

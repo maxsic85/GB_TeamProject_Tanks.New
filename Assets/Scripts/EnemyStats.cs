@@ -47,7 +47,7 @@ namespace AS
             MaxHealth = SetMaxHealthFromHealthLevelFormula();
             CurrentHealth = MaxHealth;
             _healthBar.SetMaxHealth(MaxHealth);
-            _healthBar.SetCurrentSkill(_skillType);
+            _healthBar.SetCurrentSkill(this._currentSkillData);
 
         }
     }

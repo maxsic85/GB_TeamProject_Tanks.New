@@ -34,9 +34,10 @@ namespace AS
             }
             _slider.value = currentHealth;
         }
-        public void SetCurrentSkill(SkillType skillType)
+        public void SetCurrentSkill(SkillData skillData)
         {
-            _image.sprite = Extenshion.GetSpriteBySkillType(skillType);
+           // skillData.SkillType = skillType;
+            _image.sprite = Extenshion.GetSpriteBySkillType(skillData.SkillType);
         }
 
     }

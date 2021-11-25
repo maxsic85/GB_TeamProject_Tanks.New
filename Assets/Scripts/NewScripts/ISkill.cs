@@ -37,13 +37,13 @@ namespace AS
             
         }
 
-        private void SetDamagRandom() => _player.GetComponentInChildren<ShotHandler>().JustShot(true);
+        private void SetDamagRandom() => _player.GetComponentInChildren<ShotHandler>().RandomShot();
         private void SetDamagToAll()
         {
             var enemies = CombatHandler.Instance.EnemyTeam;
             _player.GetComponentInChildren<ShotHandler>().ShotToAllEnemies();
         }
-        private void SetDamagToTarget() => _player.GetComponentInChildren<ShotHandler>().JustShot(false);
+        private void SetDamagToTarget() => _player.GetComponentInChildren<ShotHandler>().JustShot();
 
 
     }
