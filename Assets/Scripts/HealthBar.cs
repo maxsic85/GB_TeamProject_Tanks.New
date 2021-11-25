@@ -21,6 +21,10 @@ namespace AS
         {
             _slider.maxValue = maxHealth;
             _slider.value = maxHealth;
+            
+            if (!isActiveAndEnabled)
+                gameObject.SetActive(true);
+
         }
         public void SetCurrentHealth(int currentHealth)
         {

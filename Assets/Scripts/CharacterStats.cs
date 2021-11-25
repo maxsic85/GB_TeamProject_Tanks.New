@@ -116,6 +116,8 @@ namespace AS
                 IsDead = true;
             }
         }
+
+        
     }
 }
 

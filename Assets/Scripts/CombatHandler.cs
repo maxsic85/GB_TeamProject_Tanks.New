@@ -223,6 +223,24 @@ namespace AS
             return _endRound;
         }
 
+        public void RestartFight()
+        {
+            _victoryWindow.gameObject.SetActive(false);
+            ServiceLocator.Resolve<GameStarter>().roundData.EndRound = false;
+            ServiceLocator.Resolve<GameStarter>().roundData.RoundCount = 0;
+            _combatants.Clear();
+            _remainingAllies.Clear();
+            _remainingEnemies.Clear();
+            InitPlayers();
+
+            InitEnemies();
+
+            foreach (IInitialisation i in _combatants)
+            {
+                i.Initialisation();
+            }
+            Battle();
+        }
 
     }
 }

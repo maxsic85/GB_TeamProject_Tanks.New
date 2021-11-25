@@ -6,17 +6,20 @@ using UnityEngine.Serialization;
 
 namespace AS
 {
-    public class EnemyStats : CharacterStats
+    public class EnemyStats : CharacterStats, IInitialisation
     {
         [FormerlySerializedAs("enemyHealthBar")] public HealthBar _healthBar;
         public GameObject ExplosionFX;
         public GameObject SmokeFX;
-       private void Start()
-        {
-            MaxHealth = SetMaxHealthFromHealthLevelFormula();
-            CurrentHealth = MaxHealth;
-            _healthBar.SetMaxHealth(MaxHealth);
-            _healthBar.SetCurrentSkill(_skillType);
+
+        private GameObject _explosion;
+        private GameObject _smoke;
+
+        private void Start()
+        {          
+            _smoke = Instantiate(SmokeFX, transform.position, transform.rotation);
+            _smoke.SetActive(false);
+            Initialisation();
         }
         private int SetMaxHealthFromHealthLevelFormula()
         {
@@ -29,14 +32,23 @@ namespace AS
         }
         public void HandleDeath()
         {
-            var rotation = transform.rotation;
-            var position = transform.position;
-            
-            Instantiate(ExplosionFX, position, rotation);
-            Instantiate(SmokeFX, position, rotation);
-            
+            _smoke.SetActive(true);
+            _explosion = Instantiate(ExplosionFX, transform.position, transform.rotation);
+
+
             var targetLockOn = FindObjectOfType<TargetLockOn>();
             targetLockOn.ClearTarget();
+        }
+
+        public void Initialisation()
+        {
+            IsDead = false;
+            _smoke.SetActive(false);
+            MaxHealth = SetMaxHealthFromHealthLevelFormula();
+            CurrentHealth = MaxHealth;
+            _healthBar.SetMaxHealth(MaxHealth);
+            _healthBar.SetCurrentSkill(_skillType);
+
         }
     }
 }
