@@ -17,10 +17,22 @@ namespace AS
             image = GetComponent<Image>();
             image.sprite = skillData.Image;
             gameObject.GetOrAddComponent<Button>().onClick.AddListener(SetSkillForPlayerByUI);
+            ServiceLocator.Resolve<SkillState>().ChangeImageEvent += ChangeIcon;
+            InvokeRepeating("ChangeIcon", 1, 1);
         }
         private void SetSkillForPlayerByUI()
         {
-            ServiceLocatorMonoBehavior.GetService<PlayerStats>().UpdateSkill(skillData);   
+            ServiceLocatorMonoBehavior.GetService<PlayerStats>().UpdateSkill(skillData);
+           // ChangeIcon(skillData);
         }
+
+        private void ChangeIcon(SkillData _skillData)
+        {
+           
+            if (skillData.IsEnable) gameObject.GetComponent<Image>().sprite = skillData.Image;
+            else gameObject.GetComponent<Image>().sprite = null;
+        }
+
+     
     }
 }

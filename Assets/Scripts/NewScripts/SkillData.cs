@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class SkillData : ScriptableObject
 {
     [SerializeField] string _name="skill";
+    [SerializeField] GameObject _button;
+
     [SerializeField] Sprite _image ;
     [SerializeField] int  _cooldown;
     [SerializeField] int _useInRound;
@@ -21,4 +23,5 @@ public class SkillData : ScriptableObject
     public bool IsEnable { get => _isEnable; set => _isEnable = value; }
     public int UseInRound { get => _useInRound; set => _useInRound = value; }
     public int DelayRoundToActive { get => _delayRoundToActive; set => _delayRoundToActive = value; }
+    public GameObject Button { get => _button; set => _button = value; }
 }
