@@ -26,6 +26,7 @@ namespace AS
         {
             playerHealthBar.SetCurrentSkill( skillData);
             _currentSkillData = skillData;
+            UpdatePlayerHealthSlider();
         }
         private int SetMaxHealthFromHealthLevelFormula()
         {

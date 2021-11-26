@@ -36,7 +36,7 @@ namespace AS
         }
         public void SetCurrentSkill(SkillData skillData)
         {
-           // skillData.SkillType = skillType;
+            if (skillData == null) return;
             _image.sprite = Extenshion.GetSpriteBySkillType(skillData.SkillType);
         }
 

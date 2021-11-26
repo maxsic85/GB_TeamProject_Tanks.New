@@ -34,7 +34,7 @@ namespace AS
         {
             character.Skill.ExecuteSkill(skillData.SkillType);
             skillData.IsEnable = false;
-            skillData.UseInRound = ServiceLocator.Resolve<GameStarter>().roundData.RoundCount;
+            skillData.NumberRoundUse = ServiceLocator.Resolve<GameStarter>().roundData.RoundCount;
         }
         public void JustShot()
         {

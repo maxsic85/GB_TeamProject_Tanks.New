@@ -34,6 +34,7 @@ namespace AS
 
             enemy.playerHealthBar = healthbar;
             enemy.GetComponent<TankController>()._health = healthbar;
+           
             return enemy;
         }
 

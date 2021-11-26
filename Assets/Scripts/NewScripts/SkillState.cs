@@ -26,22 +26,18 @@ namespace AS
             foreach (var skill in skills.SkillDatas)
             {
                 IncreaseCoolDown(skill);
-                ChahgeIcon(skill);
+                ChahgeIconState(skill);
             }
         }
-
-        private void ChahgeIcon(SkillData skill)
+        private void ChahgeIconState(SkillData skill)
         {
             ChangeImageEvent?.Invoke(skill);
-            //if (skill.IsEnable) skill.Button.gameObject.GetComponent<Button>().enabled = true;
-            //else skill.Button.gameObject.GetComponent<Button>().enabled = false;
         }
-
         private bool IncreaseCoolDown(SkillData skillData)
         {
             if (skillData.IsEnable == false)
             {
-                skillData.DelayRoundToActive++;
+                ++skillData.DelayRoundToActive;
             }
             if (skillData.DelayRoundToActive == skillData.Cooldown)
             {

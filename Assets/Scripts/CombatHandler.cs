@@ -13,7 +13,7 @@ namespace AS
         [SerializeField] private int _roundCount = 0;
         [SerializeField] private bool _endRound = false;
         ISkill _skill;
-     
+
         private List<CharacterStats> _combatants;
         private PlayerStats[] _playerTeam;
         private EnemyStats[] _enemyTeam;
@@ -59,7 +59,7 @@ namespace AS
 
             InitPlayers();
             InitEnemies();
-            SetSkills();
+            SeRandomSkillsOnStart();
         }
 
         private void Start()
@@ -176,14 +176,14 @@ namespace AS
                 _remainingEnemies.Add(enemyStats);
             }
         }
-        private void SetSkills()
+        private void SeRandomSkillsOnStart()
         {
             var count = Enum.GetValues(typeof(SkillType)).Length;
             foreach (var tanks in _combatants)
             {
                 int rnd = Random.Range(0, count);
-              //  tanks._SkillType = tanks.GetRandomSkill(rnd);
-                tanks._currentSkillData= tanks.GetRandomSkillData(rnd);
+                //  tanks._SkillType = tanks.GetRandomSkill(rnd);
+                tanks._currentSkillData = tanks.GetRandomSkillData(rnd);
                 tanks.Skill = _skill;
             }
         }
@@ -205,16 +205,15 @@ namespace AS
                     ServiceLocator.Resolve<GameStarter>().roundData.RoundCount = _roundCount;
                     StopCoroutine(nameof(WaitForEndRound));
                     ServiceLocator.Resolve<SkillState>().UpdateStateSkills();
-                    // SetSkills();
+                    //reset skill to earth after player shot 
+                    _playerTeam[0]._currentSkillData = _playerTeam[0].GetRandomSkillData(2);
+                    ServiceLocatorMonoBehavior.GetService<PlayerStats>().UpdateSkill(_playerTeam[0]._currentSkillData);
                     Battle();
-
                 }
                 else if (_endRound)
                 {
                     StartCoroutine(nameof(WaitForEndRound));
                 }
-
-
             }
         }
         private bool CheckEndRound()
@@ -224,7 +223,6 @@ namespace AS
 
             return _endRound;
         }
-
         public void RestartFight()
         {
             _victoryWindow.gameObject.SetActive(false);
@@ -243,6 +241,5 @@ namespace AS
             }
             Battle();
         }
-
     }
 }
