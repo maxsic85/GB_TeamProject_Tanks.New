@@ -8,11 +8,13 @@ namespace AS
     {
         TargetLockOn _targetLockOn;
         CombatHandler _combatHandler;
+        public ISavePlayerPosition _saveDataPosition;
 
         public InputHandler(TargetLockOn targetLockOn,CombatHandler combatHandler)
         {
             _targetLockOn = targetLockOn;
             _combatHandler = combatHandler;
+            _saveDataPosition = new SaveDataRep();
         }
 
         public void Execute(float time)
@@ -34,7 +36,11 @@ namespace AS
             }
             else if (Input.GetMouseButtonDown(2))
             {
-                ServiceLocator.Resolve<GameStarter>().roundData.EndRound = true;
+                _saveDataPosition.Save(_combatHandler.PlayerTeam[0].CurrentHealth);
+            }
+            else if (Input.GetMouseButtonDown(1))
+            {
+                _saveDataPosition.Load(_combatHandler.PlayerTeam[0].CurrentHealth);
             }
         }
 
