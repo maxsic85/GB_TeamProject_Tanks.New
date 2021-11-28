@@ -22,6 +22,7 @@ namespace AS
         //private List<AbilityComponent> abilityComponents;
 
         private VictoryWindow _victoryWindow;
+        private DefeatWindow _defeatWindow;
 
         private CharacterStats _currentActiveUnit;
         [HideInInspector] public CharacterStats _currentAIUnitTarget;
@@ -56,6 +57,8 @@ namespace AS
             _enemyTeam = FindObjectsOfType<EnemyStats>();
             _victoryWindow = FindObjectOfType<VictoryWindow>();
             _victoryWindow.gameObject.SetActive(false);
+            _defeatWindow = FindObjectOfType<DefeatWindow>();
+            _defeatWindow.gameObject.SetActive(false);
 
             InitPlayers();
             InitEnemies();
@@ -76,6 +79,7 @@ namespace AS
             if (_remainingAllies.Count == 0)
             {
                 Debug.Log("Defeat");
+               // _defeatWindow.gameObject.SetActive(true);
             }
 
             if (_remainingEnemies.Count == 0)
@@ -105,6 +109,7 @@ namespace AS
                     }
                     else if (_currentActiveUnit.CompareTag("Player"))
                     {
+                        _defeatWindow.gameObject.SetActive(true);
                         _remainingAllies.Remove(_currentActiveUnit);
                     }
 
