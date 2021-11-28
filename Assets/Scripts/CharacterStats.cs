@@ -16,7 +16,7 @@ namespace AS
 
         [SerializeField] private bool _isEndRound = false;
 
-        private int _currentHealth;
+      [SerializeField] private int _currentHealth;
         private bool _isDead;
 
         public static PlayerStats CreatePlayer(Transform playerTransform, Transform healthBarTransform)
@@ -121,16 +121,16 @@ namespace AS
         public void TakingDamage(int damage)
         {
             if (_isDead) return;
-            _currentHealth = _currentHealth - damage;
+            CurrentHealth = CurrentHealth - damage;
 
-            if (_currentHealth <= 0)
+            if (CurrentHealth <= 0)
             {
-                _currentHealth = 0;
+                CurrentHealth = 0;
                 IsDead = true;
             }
         }
+     
 
-        
     }
 }
 

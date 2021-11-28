@@ -21,7 +21,6 @@ namespace AS
             _path = Path.Combine(Application.dataPath, _folderName);
 
         }
-
         public void Save(int player)
         {
             if (!Directory.Exists(Path.Combine(_path)))
@@ -38,7 +37,6 @@ namespace AS
             _data.Save(savePlayer, Path.Combine(_path, _fileName));
             Debug.Log("Save");
         }
-
         public void Load(int player)
         {
             var file = Path.Combine(_path, _fileName);

@@ -39,7 +39,6 @@ namespace AS
             var targetLockOn = FindObjectOfType<TargetLockOn>();
             targetLockOn.ClearTarget();
         }
-
         public void Initialisation()
         {
             IsDead = false;

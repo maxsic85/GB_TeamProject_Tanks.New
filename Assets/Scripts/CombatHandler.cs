@@ -231,6 +231,7 @@ namespace AS
         public void RestartFight()
         {
             _victoryWindow.gameObject.SetActive(false);
+            _defeatWindow.gameObject.SetActive(false);
             ServiceLocator.Resolve<GameStarter>().roundData.EndRound = false;
             ServiceLocator.Resolve<GameStarter>().roundData.RoundCount = 0;
             _combatants.Clear();

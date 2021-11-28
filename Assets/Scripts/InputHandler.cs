@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace AS
 {
@@ -9,12 +10,18 @@ namespace AS
         TargetLockOn _targetLockOn;
         CombatHandler _combatHandler;
         public ISavePlayerPosition _saveDataPosition;
+        private PlayerStats _player;
+        private Button UIdataRound;
 
-        public InputHandler(TargetLockOn targetLockOn,CombatHandler combatHandler)
+        public InputHandler(TargetLockOn targetLockOn,CombatHandler combatHandler, ISavePlayerPosition saveDataPosition,Button uIdataRound)
         {
             _targetLockOn = targetLockOn;
             _combatHandler = combatHandler;
-            _saveDataPosition = new SaveDataRep();
+            _saveDataPosition = saveDataPosition;
+            _player = GameObject.FindObjectOfType<PlayerStats>();
+            UIdataRound = uIdataRound;
+            UIdataRound.onClick.AddListener(Save);
+         //   UIdataRound.LoadBtn.GetOrAddComponent<Button>().onClick.AddListener(Load);
         }
 
         public void Execute(float time)
@@ -28,6 +35,7 @@ namespace AS
             {
                 _targetLockOn.ChooseTarget();
                 Debug.Log("touch" + _targetLockOn.name);
+
             }
             else if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -36,13 +44,27 @@ namespace AS
             }
             else if (Input.GetMouseButtonDown(2))
             {
-                _saveDataPosition.Save(_combatHandler.PlayerTeam[0].CurrentHealth);
+                Save();
             }
             else if (Input.GetMouseButtonDown(1))
             {
-                _saveDataPosition.Load(_combatHandler.PlayerTeam[0].CurrentHealth);
+                Load();
             }
         }
 
+        private void Load()
+        {
+            _saveDataPosition.Load(_player.CurrentHealth);
+
+            _player.SetHealth(_player.CurrentHealth);
+            _player.UpdatePlayerHealthSlider();
+            Debug.Log("Save");
+        }
+
+        private void Save()
+        {
+            Debug.Log("Save");
+            _saveDataPosition.Save(_player.CurrentHealth);
+        }
     }
 }

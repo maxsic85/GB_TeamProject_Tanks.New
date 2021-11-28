@@ -9,22 +9,21 @@ namespace AS
         public HealthBar playerHealthBar;
         public GameObject ExplosionFX;
         public GameObject SmokeFX;
-       
+
         private GameObject _explosion;
         private GameObject _smoke;
 
         void Start()
         {
-           
             _smoke = Instantiate(SmokeFX, transform.position, transform.rotation);
-           
             _smoke.SetActive(false);
             Initialisation();
+            ServiceLocator.Resolve<GameStarter>().savePlayerPosition.OnLoadHealth += SetHealth;
 
         }
         public void UpdateSkill(SkillData skillData)
         {
-            playerHealthBar.SetCurrentSkill( skillData);
+            playerHealthBar.SetCurrentSkill(skillData);
             _currentSkillData = skillData;
             UpdatePlayerHealthSlider();
         }
@@ -42,7 +41,10 @@ namespace AS
             _explosion = Instantiate(ExplosionFX, transform.position, transform.rotation);
             _smoke.SetActive(true);
         }
-
+        public void SetHealth(int damage)
+        {
+            this.CurrentHealth = damage;
+        }
         public void Initialisation()
         {
             IsDead = false;

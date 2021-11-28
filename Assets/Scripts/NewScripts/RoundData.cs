@@ -16,6 +16,7 @@ namespace AS
         [SerializeField] private List<TransformsData> transformForInstantiateEnemy;
         [SerializeField] private TransformsData transformForInstantiatePlayer;
 
+
         [SerializeField] private Dictionary<SkillType, Sprite> _skilsImages;
         public bool EndRound { get => endRound; set => endRound = value; }
         public int RoundCount { get => roundCount; set => roundCount = value; }
