@@ -33,10 +33,10 @@ namespace AS
         {
             Sprite sprite = index switch
             {
-                SkillType.FIRE => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[0].Image,
-                SkillType.WATER => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[1].Image,
-                SkillType.EARTH => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[2].Image,
-                _ => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[0].Image
+                SkillType.FIRE => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[0].ImageWhenActivSkill,
+                SkillType.WATER => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[1].ImageWhenActivSkill,
+                SkillType.EARTH => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[2].ImageWhenActivSkill,
+                _ => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[0].ImageWhenActivSkill
             };
             return sprite;
         }

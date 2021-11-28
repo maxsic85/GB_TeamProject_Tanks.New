@@ -9,7 +9,7 @@ namespace AS
         public HealthBar playerHealthBar;
         public GameObject ExplosionFX;
         public GameObject SmokeFX;
-
+       
         private GameObject _explosion;
         private GameObject _smoke;
 
@@ -22,9 +22,11 @@ namespace AS
             Initialisation();
 
         }
-        public void UpdateSkill()
+        public void UpdateSkill(SkillData skillData)
         {
-            playerHealthBar.SetCurrentSkill(_skillType);
+            playerHealthBar.SetCurrentSkill( skillData);
+            _currentSkillData = skillData;
+            UpdatePlayerHealthSlider();
         }
         private int SetMaxHealthFromHealthLevelFormula()
         {
@@ -50,7 +52,7 @@ namespace AS
             MaxHealth = SetMaxHealthFromHealthLevelFormula();
             CurrentHealth = MaxHealth;
             playerHealthBar.SetMaxHealth(MaxHealth);
-            UpdateSkill();
+            UpdateSkill(_currentSkillData);
 
         }
     }

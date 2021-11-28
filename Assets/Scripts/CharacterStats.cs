@@ -10,7 +10,8 @@ namespace AS
         [SerializeField] private bool _isUseSkiil = false;
 
         [SerializeField] ISkill skill;
-       public SkillType _skillType;
+        public SkillData _currentSkillData;
+        private SkillData skillData;
         [SerializeField] ShotType _shotType;
 
         [SerializeField] private bool _isEndRound = false;
@@ -33,6 +34,7 @@ namespace AS
 
             enemy.playerHealthBar = healthbar;
             enemy.GetComponent<TankController>()._health = healthbar;
+           
             return enemy;
         }
 
@@ -90,20 +92,31 @@ namespace AS
             set => _isUseSkiil = value;
         }
         public ISkill Skill { get => skill; set => skill = value; }
-        public SkillType _SkillType { get => _skillType; set => _skillType = value; }
         public ShotType ShotType { get => _shotType; set => _shotType = value; }
 
-        internal SkillType GetRandomSkill(int index)
+        internal SkillData GetRandomSkillData(int index)
         {
-            _skillType = index switch
+            skillData = index switch
             {
-                0 => SkillType.FIRE,
-                1 => SkillType.WATER,
-                2 => SkillType.EARTH,
-                _ => 0
+                0 => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[0],
+                1 => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[1],
+                2 => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[2],
+                _ => ServiceLocator.Resolve<GameStarter>().roundData.Skills.SkillDatas[0]
             };
-            return _skillType;
+            return skillData;
         }
+
+        //internal SkillData GetRandomSkill(int index)
+        //{
+        //    _skillType = index switch
+        //    {
+        //        0 => SkillType.FIRE,
+        //        1 => SkillType.WATER,
+        //        2 => SkillType.EARTH,
+        //        _ => 0
+        //    };
+        //    return _skillType;
+        //}
 
         public void TakingDamage(int damage)
         {

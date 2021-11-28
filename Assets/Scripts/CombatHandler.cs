@@ -59,12 +59,12 @@ namespace AS
 
             InitPlayers();
             InitEnemies();
-            SetSkills();
+            SeRandomSkillsOnStart();
         }
 
         private void Start()
         {
-           
+
             InvokeRepeating(nameof(CheckNewRound), 1, 0.2f);
             Battle();
         }
@@ -80,10 +80,10 @@ namespace AS
 
             if (_remainingEnemies.Count == 0)
             {
-               
+
                 Debug.Log("Victory");
                 _victoryWindow.gameObject.SetActive(true);
-               
+
 
             }
             else
@@ -131,7 +131,7 @@ namespace AS
         public void AIAttackAction()
         {
             var shotHandler = _currentActiveUnit.GetComponentInChildren<ShotHandler>();
-            shotHandler.Shot(_currentActiveUnit);
+            shotHandler.Shot(_currentActiveUnit, null);
             _currentActiveUnit.IsEndRound = true;
             StartCoroutine(nameof(WaitForTurn));
         }
@@ -145,7 +145,7 @@ namespace AS
 
             if (!targetLockOn.currentEnemy) return;
 
-            shotHandler.Shot(_currentActiveUnit);
+            shotHandler.Shot(_currentActiveUnit, _currentActiveUnit._currentSkillData);
             _waitingForPlayerAction = false;
             _currentActiveUnit.IsEndRound = true;
             StartCoroutine(nameof(WaitForTurn));
@@ -176,13 +176,14 @@ namespace AS
                 _remainingEnemies.Add(enemyStats);
             }
         }
-        private void SetSkills()
+        private void SeRandomSkillsOnStart()
         {
             var count = Enum.GetValues(typeof(SkillType)).Length;
             foreach (var tanks in _combatants)
             {
                 int rnd = Random.Range(0, count);
-                tanks._SkillType = tanks.GetRandomSkill(rnd);
+                //  tanks._SkillType = tanks.GetRandomSkill(rnd);
+                tanks._currentSkillData = tanks.GetRandomSkillData(rnd);
                 tanks.Skill = _skill;
             }
         }
@@ -191,7 +192,7 @@ namespace AS
             if (CheckEndRound())// && ServiceLocatorMonoBehavior.GetService<GameService>().roundData.EndRound)
             {
 
-                if   (ServiceLocator.Resolve<GameStarter>().roundData.EndRound)
+                if (ServiceLocator.Resolve<GameStarter>().roundData.EndRound)
                 {
 
                     foreach (var item in _combatants)
@@ -203,16 +204,16 @@ namespace AS
                     ServiceLocator.Resolve<GameStarter>().roundData.EndRound = false;
                     ServiceLocator.Resolve<GameStarter>().roundData.RoundCount = _roundCount;
                     StopCoroutine(nameof(WaitForEndRound));
-                    // SetSkills();
+                    ServiceLocator.Resolve<SkillState>().UpdateStateSkills();
+                    //reset skill to earth after player shot 
+                    _playerTeam[0]._currentSkillData = _playerTeam[0].GetRandomSkillData(2);
+                    ServiceLocatorMonoBehavior.GetService<PlayerStats>().UpdateSkill(_playerTeam[0]._currentSkillData);
                     Battle();
-
                 }
-                else if(_endRound)
+                else if (_endRound)
                 {
                     StartCoroutine(nameof(WaitForEndRound));
                 }
-
-
             }
         }
         private bool CheckEndRound()
@@ -222,7 +223,6 @@ namespace AS
 
             return _endRound;
         }
-
         public void RestartFight()
         {
             _victoryWindow.gameObject.SetActive(false);
@@ -241,6 +241,5 @@ namespace AS
             }
             Battle();
         }
-
     }
 }
