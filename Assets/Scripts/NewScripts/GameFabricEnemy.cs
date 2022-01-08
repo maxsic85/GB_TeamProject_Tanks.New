@@ -20,6 +20,7 @@ namespace AS
         public void PlayerFabricOnStart()
         {
             var playerTank = PlayerStats.CreatePlayer(_roundData.TransformForInstantiatePlayer.Transform, _healthBarCanvas.transform);
+            var playerTank2 = PlayerStats.CreatePlayer(_roundData.TransformForInstantiatePlayer.TransformPlayer2, _healthBarCanvas.transform);
         }
         public void EnemyTanksFabriOnStart()
         {

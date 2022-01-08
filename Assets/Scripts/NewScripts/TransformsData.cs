@@ -8,7 +8,8 @@ namespace AS
     public class TransformsData : ScriptableObject
     {
        [SerializeField] private Transform transform;
-
+        [SerializeField] private Transform transformPlayer2;
         public Transform Transform { get => transform; set => transform = value; }
+        public Transform TransformPlayer2 { get => transformPlayer2; set => transformPlayer2 = value; }
     }
 }

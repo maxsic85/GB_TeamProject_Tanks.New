@@ -13,6 +13,7 @@ namespace AS
         [SerializeField] private List<ISkill> skil;
         [SerializeField] private Skills skills;
         [SerializeField] private int enemyCntOnStart = 3;
+        [SerializeField] private int playerCntOnStart = 2;
         [SerializeField] private List<TransformsData> transformForInstantiateEnemy;
         [SerializeField] private TransformsData transformForInstantiatePlayer;
 
